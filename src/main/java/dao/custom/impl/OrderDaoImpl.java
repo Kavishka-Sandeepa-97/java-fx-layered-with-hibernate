@@ -1,11 +1,14 @@
 package dao.custom.impl;
 
 import dao.utill.CrudUtil;
+import dao.utill.HibernateUtil;
 import db.DBConnection;
 import dto.OrderDto;
 import dao.custom.OrderDetailsDao;
 import dao.custom.OrderDao;
 import entity.Orders;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -68,18 +71,23 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public List<Orders> getAll() throws SQLException, ClassNotFoundException {
-        String sql="select * from orders";
-        List<Orders> list=new ArrayList<>();
 
-        ResultSet res=CrudUtil.exicute(sql);
-        while (res.next()){
-            list.add( new Orders(
-                    res.getString(1),
-                    res.getString(2),
-                    res.getString(3)
-            ));
-        }
+        Session session= HibernateUtil.getSession();
+        Query fromOrders = session.createQuery("From Orders");
+        List list = fromOrders.list();
         return list;
+//        String sql="select * from orders";
+//        List<Orders> list=new ArrayList<>();
+//
+//        ResultSet res=CrudUtil.exicute(sql);
+//        while (res.next()){
+//            list.add( new Orders(
+//                    res.getString(1),
+//                    res.getString(2),
+//                    res.getString(3)
+//            ));
+//        }
+//        return list;
     }
 
     @Override

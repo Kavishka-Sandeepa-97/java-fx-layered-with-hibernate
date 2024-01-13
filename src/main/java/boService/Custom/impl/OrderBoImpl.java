@@ -45,7 +45,7 @@ public class OrderBoImpl implements OrderBo {
             dtoList.add(new OrderDto(
                     dto.getOrderId(),
                     dto.getOrderDate(),
-                    dto.getCustId(),
+                    dto.getCustomer().getCustId(),
                     null
             ));
         }
